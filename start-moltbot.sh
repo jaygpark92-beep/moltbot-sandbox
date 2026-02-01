@@ -190,9 +190,10 @@ if (process.env.TELEGRAM_BOT_TOKEN) {
     config.channels.telegram.dmPolicy = process.env.TELEGRAM_DM_POLICY || 'pairing';
     // Remove invalid dm key that causes config errors
     delete config.channels.telegram.dm;
-    // Add allowFrom when dmPolicy is open (required by clawdbot)
-    // Check both env var AND config value for robustness
-    if (config.channels.telegram.dmPolicy === 'open') {
+    // Set allowFrom - use env var if provided, otherwise '*' for open mode
+    if (process.env.TELEGRAM_ALLOW_FROM) {
+        config.channels.telegram.allowFrom = process.env.TELEGRAM_ALLOW_FROM.split(',');
+    } else if (config.channels.telegram.dmPolicy === 'open') {
         config.channels.telegram.allowFrom = ['*'];
     }
 }

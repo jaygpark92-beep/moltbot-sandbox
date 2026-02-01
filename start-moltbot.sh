@@ -285,6 +285,10 @@ EOFNODE
 echo "Starting Moltbot Gateway..."
 echo "Gateway will be available on port 18789"
 
+# Auto-enable configured channels (fixes "configured, not enabled yet" issue)
+echo "Running doctor to auto-enable channels..."
+clawdbot doctor --fix || true
+
 # Clean up stale lock files
 rm -f /tmp/clawdbot-gateway.lock 2>/dev/null || true
 rm -f "$CONFIG_DIR/gateway.lock" 2>/dev/null || true
